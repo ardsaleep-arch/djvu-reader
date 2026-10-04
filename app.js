@@ -713,7 +713,7 @@
     };
     if (!reveal()) {
       const iv = setInterval(() => { if (reveal()) clearInterval(iv); }, 150);
-      setTimeout(() => clearInterval(iv), 5000);
+      setTimeout(() => clearInterval(iv), 30000);
     }
   }
 
