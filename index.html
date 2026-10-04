@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DjVu Reader</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="toolbar">
+    <button id="btnSidebar" class="icon" title="แสดง/ซ่อนแถบข้าง">☰</button>
+    <label class="btn primary" title="เปิดไฟล์ DjVu">
+      เปิดไฟล์
+      <input id="fileInput" type="file" accept=".djvu,.djv,image/vnd.djvu" hidden>
+    </label>
+    <span id="docTitle" class="doc-title"></span>
+
+    <div class="group" data-needs-doc>
+      <button id="btnPrev" class="icon" title="หน้าก่อนหน้า (←)">‹</button>
+      <input id="pageInput" type="number" min="1" value="1" aria-label="หน้า">
+      <span class="muted">/ <span id="pageCount">0</span></span>
+      <button id="btnNext" class="icon" title="หน้าถัดไป (→)">›</button>
+    </div>
+
+    <div class="group" data-needs-doc>
+      <button id="btnZoomOut" class="icon" title="ซูมออก (Ctrl −)">−</button>
+      <select id="zoomSelect" aria-label="ซูม">
+        <option value="fit-width">พอดีความกว้าง</option>
+        <option value="fit-page">พอดีหน้า</option>
+        <option value="0.5">50%</option>
+        <option value="0.75">75%</option>
+        <option value="1">100%</option>
+        <option value="1.25">125%</option>
+        <option value="1.5">150%</option>
+        <option value="2">200%</option>
+        <option value="3">300%</option>
+        <option value="custom" hidden></option>
+      </select>
+      <button id="btnZoomIn" class="icon" title="ซูมเข้า (Ctrl +)">+</button>
+    </div>
+
+    <button id="btnFullscreen" class="icon" title="เต็มจอ" data-needs-doc>⛶</button>
+  </header>
+
+  <div class="main">
+    <aside id="sidebar" class="sidebar">
+      <nav class="tabs" role="tablist">
+        <button class="tab active" data-tab="thumbs" role="tab">รูปย่อ</button>
+        <button class="tab" data-tab="toc" role="tab">สารบัญ</button>
+        <button class="tab" data-tab="search" role="tab">ค้นหา</button>
+      </nav>
+      <section id="tab-thumbs" class="tab-panel active"><div id="thumbs" class="thumbs"></div></section>
+      <section id="tab-toc" class="tab-panel"><div id="toc" class="toc"><p class="muted pad">ยังไม่ได้เปิดไฟล์</p></div></section>
+      <section id="tab-search" class="tab-panel">
+        <form id="searchForm" class="search-form">
+          <input id="searchInput" type="search" placeholder="พิมพ์คำที่ต้องการค้นหา" autocomplete="off">
+          <button type="submit" class="btn">ค้นหา</button>
+        </form>
+        <div id="searchStatus" class="muted pad"></div>
+        <ol id="searchResults" class="search-results"></ol>
+      </section>
+    </aside>
+
+    <main id="viewer" class="viewer" tabindex="0">
+      <div id="welcome" class="welcome">
+        <div class="drop-card">
+          <div class="drop-icon">📖</div>
+          <h1>DjVu Reader</h1>
+          <p>ลากไฟล์ <b>.djvu</b> มาวางที่นี่ หรือกดปุ่ม “เปิดไฟล์”</p>
+          <p class="muted small">ไฟล์จะถูกอ่านในเครื่องของคุณเท่านั้น ไม่มีการอัปโหลดไปที่ใด</p>
+          <div id="recent" class="recent" hidden>
+            <h2>ไฟล์ที่เปิดล่าสุด</h2>
+            <ul id="recentList"></ul>
+            <p class="muted small">เปิดไฟล์เดิมอีกครั้ง แอปจะพาไปยังหน้าที่อ่านค้างไว้</p>
+          </div>
+        </div>
+      </div>
+      <div id="pages" class="pages"></div>
+    </main>
+  </div>
+
+  <div id="dropOverlay" class="drop-overlay" hidden>วางไฟล์เพื่อเปิด</div>
+  <div id="loading" class="loading" hidden><div class="spinner"></div><span id="loadingText">กำลังเปิดไฟล์…</span></div>
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="vendor/djvu.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
